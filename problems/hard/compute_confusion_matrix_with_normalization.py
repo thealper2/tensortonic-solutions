@@ -7,8 +7,14 @@ def confusion_matrix_norm(y_true, y_pred, num_classes=None, normalize='none'):
     y_true = np.asarray(y_true)
     y_pred = np.asarray(y_pred)
 
+    if num_classes is None:
+        if len(y_true) == 0:
+            return np.zeros((0, 0), dtype=np.int64)
+            
+        num_classes = max(np.max(y_true), np.max(y_pred)) + 1
+        
     if len(y_true) == 0:
-        return np.zeros((0, 0))
+        return np.zeros((num_classes, num_classes), dtype=np.int64)
 
     if num_classes is None:
         num_classes = max(np.max(y_true), np.max(y_pred)) + 1
